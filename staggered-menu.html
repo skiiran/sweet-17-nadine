@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staggered Menu - Sweet Seventeen</title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Montserrat", sans-serif;
+        background: linear-gradient(145deg, #fff9fa 0%, #fff0f5 100%);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ===== STAGGERED MENU STYLES ===== */
+      .staggered-menu-wrapper {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 1000;
+        pointer-events: none;
+      }
+
+      /* Header dengan tombol menu */
+      .staggered-menu-header {
+        position: absolute;
+        top: 85px;
+        right: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        z-index: 1010;
+        pointer-events: auto;
+      }
+
+      /* Tombol Menu */
+      .menu-toggle {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid white;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 5px 15px rgba(183, 110, 121, 0.3);
+        transition: all 0.3s ease;
+        z-index: 1020;
+      }
+
+      .menu-toggle:hover {
+        transform: scale(1.08);
+        box-shadow: 0 10px 20px rgba(183, 110, 121, 0.5);
+      }
+
+      .menu-toggle.open {
+        background: #b76e79;
+      }
+
+      .menu-icon {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .menu-icon-line {
+        position: absolute;
+        width: 18px;
+        height: 2px;
+        background: #b76e79;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+      }
+
+      .menu-toggle.open .menu-icon-line {
+        background: white;
+      }
+
+      .menu-icon-line:nth-child(1) {
+        transform: translateY(-5px);
+      }
+      .menu-icon-line:nth-child(2) {
+        transform: translateY(0);
+      }
+      .menu-icon-line:nth-child(3) {
+        transform: translateY(5px);
+      }
+
+      .menu-toggle.open .menu-icon-line:nth-child(1) {
+        transform: rotate(45deg) translateY(0);
+      }
+
+      .menu-toggle.open .menu-icon-line:nth-child(2) {
+        opacity: 0;
+      }
+
+      .menu-toggle.open .menu-icon-line:nth-child(3) {
+        transform: rotate(-45deg) translateY(0);
+      }
+
+      /* Text Menu */
+      .menu-text {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #b76e79;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: absolute;
+        right: 48px;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateX(10px);
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+
+      .menu-text.show {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .menu-toggle.open + .menu-text {
+        color: white;
+      }
+
+      /* Pre-layers - TRANSPARAN (bisa lihat background) */
+      .menu-prelayers {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1001;
+        overflow: hidden;
+      }
+
+      .menu-prelayer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        transform: translateX(100%);
+        will-change: transform;
+        transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+        background: rgba(255, 255, 255, 0.65) !important; /* Lebih transparan */
+        backdrop-filter: blur(4px); /* Sedikit blur untuk efek glass */
+      }
+
+      .menu-prelayer-1 {
+        z-index: 1;
+        transition-delay: 0s;
+      }
+      .menu-prelayer-2 {
+        z-index: 2;
+        transition-delay: 0.05s;
+      }
+      .menu-prelayer-3 {
+        z-index: 3;
+        transition-delay: 0.1s;
+      }
+      .menu-prelayer-4 {
+        z-index: 4;
+        transition-delay: 0.15s;
+      }
+
+      .menu-open .menu-prelayer {
+        transform: translateX(0);
+      }
+
+      /* Panel Menu Utama - LEBIH TRANSPARAN */
+      .menu-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: min(350px, 85vw);
+        height: 100%;
+        background: rgba(255, 255, 255, 0.75); /* Lebih transparan */
+        backdrop-filter: blur(8px); /* Efek glass */
+        -webkit-backdrop-filter: blur(8px);
+        border-left: 3px solid rgba(255, 255, 255, 0.8);
+        box-shadow: -5px 0 30px rgba(183, 110, 121, 0.15);
+        transform: translateX(100%);
+        transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        z-index: 1005;
+        padding: 100px 30px 30px;
+        overflow-y: auto;
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .menu-open .menu-panel {
+        transform: translateX(0);
+        transition-delay: 0.2s;
+      }
+
+      /* Brand di dalam panel - SEJAJAR DENGAN MENU ITEMS */
+      .panel-brand {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #b76e79;
+        letter-spacing: 1px;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(183, 110, 121, 0.3);
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+        transition-delay: 0.1s;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+      }
+
+      .menu-open .panel-brand {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Daftar Menu Items */
+      .menu-items {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        counter-reset: menu-item;
+      }
+
+      .menu-item-wrapper {
+        overflow: hidden;
+        transform: translateY(0);
+      }
+
+      .menu-item {
+        display: block;
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c1810;
+        text-decoration: none;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
+        position: relative;
+        padding-right: 35px;
+        transform: translateY(100%);
+        opacity: 0;
+        transition: all 0.4s ease;
+        transition-delay: calc(0.1s * var(--item-index));
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+      }
+
+      .menu-open .menu-item {
+        transform: translateY(0);
+        opacity: 1;
+        transition:
+          transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 0.5s ease;
+      }
+
+      /* Numbering */
+      .menu-item::after {
+        content: counter(menu-item, decimal-leading-zero);
+        counter-increment: menu-item;
+        position: absolute;
+        right: 0;
+        top: 0.2em;
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: #b76e79;
+        font-family: "Montserrat", sans-serif;
+        letter-spacing: 0;
+        opacity: 0;
+        transform: translateX(10px);
+        transition: all 0.4s ease;
+        transition-delay: calc(0.15s * var(--item-index));
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+      }
+
+      .menu-open .menu-item::after {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .menu-item:hover {
+        color: #b76e79;
+      }
+
+      /* Overlay - LEBIH SOFT */
+      .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(2px);
+        z-index: 1004;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.4s ease;
+      }
+
+      .menu-open .menu-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .staggered-menu-header {
+          top: 75px;
+          right: 15px;
+        }
+        .menu-item {
+          font-size: 1.8rem;
+        }
+        .menu-panel {
+          padding: 90px 25px 25px;
+        }
+        .panel-brand {
+          font-size: 1.1rem;
+          margin-bottom: 25px;
+        }
+        .menu-text {
+          right: 45px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .staggered-menu-header {
+          top: 70px;
+          right: 10px;
+        }
+        .menu-item {
+          font-size: 1.5rem;
+        }
+        .menu-toggle {
+          width: 35px;
+          height: 35px;
+        }
+        .menu-icon {
+          width: 16px;
+          height: 16px;
+        }
+        .menu-icon-line {
+          width: 16px;
+        }
+        .menu-text {
+          font-size: 0.7rem;
+          right: 42px;
+        }
+        .menu-panel {
+          width: 85vw;
+          padding: 80px 20px 20px;
+        }
+        .panel-brand {
+          font-size: 1rem;
+          margin-bottom: 20px;
+        }
+        .menu-items {
+          gap: 5px;
+        }
+      }
+
+      /* Demo Content */
+      .demo-content {
+        padding: 80px 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 3.5rem;
+        color: #b76e79;
+        margin-bottom: 20px;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #5a3e42;
+        line-height: 1.7;
+        margin-bottom: 25px;
+      }
+
+      .celebrate-btn {
+        background: linear-gradient(135deg, #ff85a2, #b76e79);
+        color: white;
+        border: none;
+        border-radius: 40px;
+        padding: 12px 30px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 2px solid white;
+        box-shadow: 0 8px 20px rgba(183, 110, 121, 0.4);
+        transition: all 0.3s ease;
+        position: relative;
+        z-index: 2;
+      }
+
+      .celebrate-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(183, 110, 121, 0.6);
+      }
+
+      .celebrate-btn i {
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- STAGGERED MENU -->
+    <div class="staggered-menu-wrapper" id="staggeredMenu">
+      <!-- Header dengan tombol menu -->
+      <div class="staggered-menu-header">
+        <div class="menu-toggle" id="menuToggle">
+          <div class="menu-icon">
+            <span class="menu-icon-line"></span>
+            <span class="menu-icon-line"></span>
+            <span class="menu-icon-line"></span>
+          </div>
+          <span class="menu-text" id="menuText">MENU</span>
+        </div>
+      </div>
+
+      <!-- Pre-layers - TRANSPARAN -->
+      <div class="menu-prelayers">
+        <div class="menu-prelayer menu-prelayer-1"></div>
+        <div class="menu-prelayer menu-prelayer-2"></div>
+        <div class="menu-prelayer menu-prelayer-3"></div>
+        <div class="menu-prelayer menu-prelayer-4"></div>
+      </div>
+
+      <!-- Panel Menu Utama - TRANSPARAN -->
+      <div class="menu-panel" id="menuPanel">
+        <!-- BRAND DI DALAM PANEL -->
+        <div class="panel-brand">Nadine's 17</div>
+
+        <ul class="menu-items">
+          <li class="menu-item-wrapper">
+            <a href="hal2.html" class="menu-item" style="--item-index: 1"
+              >Home</a
+            >
+          </li>
+          <li class="menu-item-wrapper">
+            <a
+              href="about_nadine.html"
+              class="menu-item"
+              style="--item-index: 2"
+              >About Nadine</a
+            >
+          </li>
+          <li class="menu-item-wrapper">
+            <a
+              href="random_gallery.html"
+              class="menu-item"
+              style="--item-index: 3"
+              >Gallery</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Overlay -->
+      <div class="menu-overlay" id="menuOverlay"></div>
+    </div>
+
+    <!-- DEMO CONTENT -->
+    <div class="demo-content">
+      <h1>Sweet Seventeen</h1>
+      <p>
+        Staggered Menu dengan efek glass transparan. Klik tombol menu di pojok
+        kanan atas untuk melihat efek staggered.
+      </p>
+
+      <button class="celebrate-btn" onclick="alert('Celebrate! 🎉')">
+        <i class="fas fa-gift"></i> Celebrate!
+      </button>
+
+      <p style="margin-top: 40px; font-weight: 500">Menu Links:</p>
+      <ul style="color: #5a3e42; margin-left: 30px">
+        <li><strong>Home</strong> → hal2.html</li>
+        <li><strong>About Nadine</strong> → about_nadine.html</li>
+        <li><strong>Gallery</strong> → random_gallery.html</li>
+      </ul>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const menuWrapper = document.getElementById("staggeredMenu");
+        const menuToggle = document.getElementById("menuToggle");
+        const menuOverlay = document.getElementById("menuOverlay");
+        const menuText = document.getElementById("menuText");
+
+        let isOpen = false;
+
+        function openMenu() {
+          isOpen = true;
+          menuWrapper.classList.add("menu-open");
+          menuToggle.classList.add("open");
+          menuText.textContent = "CLOSE";
+
+          setTimeout(() => {
+            menuText.classList.add("show");
+          }, 50);
+
+          document.body.style.overflow = "hidden";
+        }
+
+        function closeMenu() {
+          isOpen = false;
+          menuWrapper.classList.remove("menu-open");
+          menuToggle.classList.remove("open");
+          menuText.textContent = "MENU";
+
+          menuText.classList.remove("show");
+
+          document.body.style.overflow = "";
+        }
+
+        menuToggle.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (isOpen) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+
+        menuOverlay.addEventListener("click", function () {
+          closeMenu();
+        });
+
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && isOpen) {
+            closeMenu();
+          }
+        });
+
+        document
+          .getElementById("menuPanel")
+          .addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+      });
+    </script>
+  </body>
+</html>

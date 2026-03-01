@@ -1,0 +1,1163 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sweet Seventeen - Dancing Queen</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Cormorant Garamond", "Times New Roman", serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+        background: linear-gradient(145deg, #fff9fa 0%, #fff0f5 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* ===== DECORATIVE BACKGROUND ELEMENTS ===== */
+      .decor-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+      }
+
+      .decor-circle {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 182, 193, 0.1),
+          transparent 70%
+        );
+        filter: blur(40px);
+      }
+
+      .decor-circle-1 {
+        width: 500px;
+        height: 500px;
+        top: -200px;
+        right: -100px;
+      }
+
+      .decor-circle-2 {
+        width: 600px;
+        height: 600px;
+        bottom: -200px;
+        left: -200px;
+      }
+
+      .decor-dots {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+          rgba(255, 182, 193, 0.05) 1px,
+          transparent 1px
+        );
+        background-size: 50px 50px;
+      }
+
+      /* ===== HIASAN BUNGA TIPIS ===== */
+      .flower-decoration {
+        position: fixed;
+        pointer-events: none;
+        z-index: 1;
+        color: rgba(255, 182, 193, 0.25);
+        font-size: 2rem;
+        animation: floatSoft 15s ease-in-out infinite;
+      }
+
+      @keyframes floatSoft {
+        0%,
+        100% {
+          transform: translate(0, 0) rotate(0deg);
+        }
+        33% {
+          transform: translate(5px, -8px) rotate(3deg);
+        }
+        66% {
+          transform: translate(-3px, 5px) rotate(-2deg);
+        }
+      }
+
+      .flower-1 {
+        top: 8%;
+        left: 3%;
+        font-size: 2.2rem;
+        animation-delay: 0s;
+      }
+      .flower-2 {
+        top: 12%;
+        right: 5%;
+        font-size: 2rem;
+        animation-delay: 2s;
+      }
+      .flower-3 {
+        bottom: 10%;
+        left: 8%;
+        font-size: 2rem;
+        animation-delay: 4s;
+      }
+      .flower-4 {
+        bottom: 15%;
+        right: 7%;
+        font-size: 1.8rem;
+        animation-delay: 1s;
+      }
+      .flower-5 {
+        top: 40%;
+        left: 2%;
+        font-size: 1.5rem;
+        animation-delay: 3s;
+      }
+      .flower-6 {
+        top: 55%;
+        right: 3%;
+        font-size: 1.8rem;
+        animation-delay: 5s;
+      }
+
+      /* ===== HIASAN BUNGA UNTUK HEADER ===== */
+      .sweet-header {
+        text-align: center;
+        margin-bottom: 15px;
+        margin-top: -5px;
+        position: relative;
+      }
+
+      .sweet-header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.8rem;
+        font-weight: 600;
+        color: #b76e79;
+        letter-spacing: 1px;
+        margin-bottom: 3px;
+        text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        display: inline-block;
+        position: relative;
+        padding: 0 30px;
+      }
+
+      /* Hiasan bunga di kanan kiri Sweet Seventeen */
+      .sweet-header h1::before {
+        content: "❀";
+        position: absolute;
+        left: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 182, 193, 0.5);
+        font-size: 2.2rem;
+        animation: flowerBounce 3s ease-in-out infinite;
+      }
+
+      .sweet-header h1::after {
+        content: "❁";
+        position: absolute;
+        right: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(255, 182, 193, 0.5);
+        font-size: 2.2rem;
+        animation: flowerBounce 3s ease-in-out infinite 1s;
+      }
+
+      @keyframes flowerBounce {
+        0%,
+        100% {
+          transform: translateY(-50%) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-50%) rotate(10deg) scale(1.1);
+        }
+      }
+
+      .sweet-header h2 {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.6rem;
+        color: #c39aa1;
+        font-weight: 400;
+        letter-spacing: 1px;
+      }
+
+      /* Staggered Menu Styles */
+      .staggered-menu-wrapper {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 9998;
+        pointer-events: none;
+      }
+
+      .staggered-menu-header {
+        position: absolute;
+        top: 25px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+        z-index: 10000;
+        pointer-events: auto;
+      }
+
+      .menu-toggle {
+        position: relative;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 2px solid white;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 10px rgba(183, 110, 121, 0.2);
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        z-index: 10000;
+      }
+
+      .menu-toggle:hover {
+        transform: scale(1.1) rotate(180deg);
+        background: #ffb6c1;
+      }
+
+      .menu-toggle.open {
+        background: #b76e79;
+        transform: rotate(180deg);
+      }
+
+      .menu-icon {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .menu-icon-line {
+        position: absolute;
+        width: 18px;
+        height: 2px;
+        background: #b76e79;
+        border-radius: 2px;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .menu-toggle.open .menu-icon-line {
+        background: white;
+      }
+      .menu-icon-line:nth-child(1) {
+        transform: translateY(-5px);
+      }
+      .menu-icon-line:nth-child(2) {
+        transform: translateY(0);
+      }
+      .menu-icon-line:nth-child(3) {
+        transform: translateY(5px);
+      }
+      .menu-toggle.open .menu-icon-line:nth-child(1) {
+        transform: rotate(45deg) translateY(0);
+      }
+      .menu-toggle.open .menu-icon-line:nth-child(2) {
+        opacity: 0;
+        transform: scale(0);
+      }
+      .menu-toggle.open .menu-icon-line:nth-child(3) {
+        transform: rotate(-45deg) translateY(0);
+      }
+
+      .menu-text-container {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        overflow: hidden;
+      }
+
+      .menu-text {
+        font-size: 0.7rem;
+        font-weight: 500;
+        color: #b76e79;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+        background: white;
+        padding: 5px 15px;
+        border-radius: 30px;
+        border: 1px solid #ffb6c1;
+      }
+
+      .menu-text.show {
+        opacity: 1;
+        transform: translateX(0);
+        transition-delay: 0.1s;
+      }
+
+      .menu-toggle.open + .menu-text-container .menu-text {
+        background: #b76e79;
+        color: white;
+        border-color: white;
+      }
+
+      .menu-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: min(250px, 80vw);
+        height: 100%;
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.95),
+          rgba(255, 245, 247, 0.95)
+        );
+        backdrop-filter: blur(15px);
+        box-shadow: -5px 0 30px rgba(183, 110, 121, 0.2);
+        transform: translateX(100%);
+        transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        z-index: 9999;
+        padding: 100px 25px 30px;
+        overflow-y: auto;
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
+        border-radius: 40px 0 0 40px;
+        border-left: 3px solid white;
+      }
+
+      .menu-open .menu-panel {
+        transform: translateX(0);
+        transition-delay: 0.2s;
+      }
+
+      .panel-brand {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #b76e79;
+        letter-spacing: 3px;
+        margin-bottom: 30px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(183, 110, 121, 0.2);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition-delay: 0.1s;
+        display: inline-block;
+        position: relative;
+        text-transform: uppercase;
+      }
+
+      .panel-brand::before,
+      .panel-brand::after {
+        content: "❀";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.7rem;
+        color: #c39aa1;
+        opacity: 0.4;
+      }
+      .panel-brand::before {
+        left: -15px;
+      }
+      .panel-brand::after {
+        right: -15px;
+      }
+      .menu-open .panel-brand {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .menu-items {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .menu-item-wrapper {
+        overflow: hidden;
+        opacity: 0;
+        transform: translateX(30px);
+        transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transition-delay: calc(0.1s * var(--item-index));
+      }
+
+      .menu-open .menu-item-wrapper {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .menu-item {
+        display: block;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: #5a3e42;
+        text-decoration: none;
+        line-height: 1.3;
+        position: relative;
+        padding: 8px 0 8px 20px;
+        transition: all 0.4s ease;
+        border-left: 2px solid transparent;
+      }
+
+      .menu-item:hover {
+        color: #b76e79;
+        border-left-color: #b76e79;
+        padding-left: 25px;
+      }
+
+      .menu-item::after {
+        content: "";
+        position: absolute;
+        bottom: 5px;
+        left: 20px;
+        width: 0;
+        height: 1px;
+        background: linear-gradient(90deg, #b76e79, transparent);
+        transition: width 0.4s ease;
+      }
+
+      .menu-item:hover::after {
+        width: 25px;
+      }
+
+      .menu-item-wrapper:nth-child(1) {
+        --item-index: 1;
+      }
+      .menu-item-wrapper:nth-child(2) {
+        --item-index: 2;
+      }
+      .menu-item-wrapper:nth-child(3) {
+        --item-index: 3;
+      }
+
+      .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(3px);
+        z-index: 9996;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+      }
+
+      .menu-open .menu-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .player-container {
+        max-width: 1100px;
+        width: 100%;
+        background: rgba(255, 245, 235, 0.7);
+        backdrop-filter: blur(20px);
+        border-radius: 40px;
+        padding: 20px 25px;
+        box-shadow:
+          0 15px 30px rgba(183, 110, 121, 0.1),
+          0 0 0 1px rgba(255, 182, 193, 0.2),
+          inset 0 0 20px rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        position: relative;
+        z-index: 2;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 0.8fr 1.5fr;
+        gap: 25px;
+        align-items: start;
+      }
+
+      /* Left Section */
+      .left-section {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .album-container {
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 25px;
+        overflow: hidden;
+        box-shadow:
+          0 10px 20px rgba(183, 110, 121, 0.15),
+          0 0 0 2px rgba(255, 255, 255, 0.8);
+        background: #fff5ee;
+        position: relative;
+        margin-bottom: 12px;
+      }
+
+      .album-cover {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Song info - DENGAN BUNGA YANG TERLIHAT */
+      .song-info {
+        text-align: center;
+        border-bottom: 1px solid #ffb6c1;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+        position: relative;
+      }
+
+      /* Bunga di bawah text pencipta lagu - DIPERBESAR */
+      .song-info::after {
+        content: "❀";
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 182, 193, 0.6);
+        font-size: 1.4rem;
+        background: transparent;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        animation: flowerPulse 3s ease-in-out infinite;
+      }
+
+      @keyframes flowerPulse {
+        0%,
+        100% {
+          transform: translateX(-50%) scale(1);
+          opacity: 0.6;
+        }
+        50% {
+          transform: translateX(-50%) scale(1.2);
+          opacity: 0.9;
+        }
+      }
+
+      .song-title {
+        font-size: 32px;
+        font-weight: 600;
+        color: #b76e79;
+        line-height: 1.1;
+        margin-bottom: 3px;
+        font-family: "Cormorant Garamond", serif;
+      }
+
+      .song-artist {
+        font-size: 16px;
+        color: #c39aa1;
+        font-weight: 400;
+        font-style: italic;
+        margin-bottom: 5px;
+      }
+
+      /* Progress bar */
+      .progress-section {
+        margin-bottom: 12px;
+      }
+
+      .time-info {
+        display: flex;
+        justify-content: space-between;
+        color: #5a3e42;
+        font-size: 12px;
+        margin-top: 4px;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      .progress-container {
+        width: 100%;
+        height: 3px;
+        background: #e8d9c5;
+        border-radius: 3px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        width: 0%;
+        height: 100%;
+        background: #5a3e42;
+        border-radius: 3px;
+        transition: width 0.1s linear;
+      }
+
+      /* Controls */
+      .playback-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        background: rgba(255, 255, 255, 0.6);
+        padding: 8px 18px;
+        border-radius: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        width: fit-content;
+        margin: 0 auto;
+      }
+
+      .control-btn {
+        background: none;
+        border: none;
+        color: #c39aa1;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 16px;
+      }
+
+      .control-btn:hover {
+        color: #b76e79;
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      .control-btn.play-pause {
+        width: 42px;
+        height: 42px;
+        background: #b76e79;
+        color: white;
+        font-size: 20px;
+        box-shadow: 0 3px 10px rgba(183, 110, 121, 0.3);
+      }
+
+      /* Right Section - Lyrics */
+      .right-section {
+        background: rgba(255, 245, 235, 0.5);
+        backdrop-filter: blur(10px);
+        border-radius: 25px;
+        padding: 15px;
+        height: 430px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        position: relative;
+      }
+
+      .right-section::before {
+        content: "❀ ❁ ❀";
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1rem;
+        color: rgba(183, 110, 121, 0.15);
+        letter-spacing: 8px;
+        white-space: nowrap;
+      }
+
+      .right-section::after {
+        content: "";
+        position: absolute;
+        bottom: 10px;
+        left: 15%;
+        right: 15%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 182, 193, 0.3),
+          rgba(183, 110, 121, 0.3),
+          rgba(255, 182, 193, 0.3),
+          transparent
+        );
+      }
+
+      .lyrics-container {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        padding-right: 8px;
+        padding-top: 15px;
+      }
+
+      .lyrics-container::-webkit-scrollbar {
+        width: 3px;
+      }
+
+      .lyrics-container::-webkit-scrollbar-track {
+        background: #ffe4e1;
+        border-radius: 3px;
+      }
+
+      .lyrics-container::-webkit-scrollbar-thumb {
+        background: #b76e79;
+        border-radius: 3px;
+      }
+
+      .lyrics-content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 5px 0;
+      }
+
+      .lyric-line {
+        color: #5a3e42;
+        font-size: 18px;
+        line-height: 1.4;
+        transition: all 0.3s ease;
+        text-align: center;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: "Cormorant Garamond", serif;
+      }
+
+      .lyric-line:hover {
+        background: rgba(255, 255, 255, 0.5);
+        color: #b76e79;
+      }
+
+      .lyric-line.active {
+        color: #b76e79;
+        font-size: 20px;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.7);
+        box-shadow: 0 3px 10px rgba(183, 110, 121, 0.15);
+        border-left: 2px solid #b76e79;
+      }
+
+      .lyric-line.pause-indicator {
+        color: #c39aa1;
+        font-size: 22px;
+        letter-spacing: 3px;
+        opacity: 0.6;
+        font-style: italic;
+      }
+
+      /* Audio element - hidden */
+      #audioPlayer {
+        display: none;
+      }
+
+      /* Decorative divider */
+      .divider {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 12px;
+        color: rgba(183, 110, 121, 0.2);
+        font-size: 0.9rem;
+      }
+
+      .divider span {
+        animation: twinkle 4s ease-in-out infinite;
+      }
+
+      .divider span:nth-child(2) {
+        animation-delay: 1s;
+      }
+      .divider span:nth-child(3) {
+        animation-delay: 2s;
+      }
+
+      @keyframes twinkle {
+        0%,
+        100% {
+          opacity: 0.3;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.1);
+        }
+      }
+
+      @media (max-width: 968px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+        .right-section {
+          height: 350px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- DECORATIVE BACKGROUND ELEMENTS -->
+    <div class="decor-bg">
+      <div class="decor-circle decor-circle-1"></div>
+      <div class="decor-circle decor-circle-2"></div>
+      <div class="decor-dots"></div>
+    </div>
+
+    <!-- HIASAN BUNGA TIPIS DI SELURUH HALAMAN -->
+    <div class="flower-decoration flower-1">❀</div>
+    <div class="flower-decoration flower-2">✽</div>
+    <div class="flower-decoration flower-3">❁</div>
+    <div class="flower-decoration flower-4">✾</div>
+    <div class="flower-decoration flower-5">❀</div>
+    <div class="flower-decoration flower-6">✿</div>
+
+    <!-- STAGGERED MENU -->
+    <div class="staggered-menu-wrapper" id="staggeredMenu">
+      <div class="staggered-menu-header">
+        <div class="menu-text-container">
+          <span class="menu-text" id="menuText">MENU</span>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <div class="menu-icon">
+            <span class="menu-icon-line"></span>
+            <span class="menu-icon-line"></span>
+            <span class="menu-icon-line"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-panel" id="menuPanel">
+        <div class="panel-brand">SWEET 17</div>
+        <ul class="menu-items">
+          <li class="menu-item-wrapper">
+            <a href="hal2.html" class="menu-item">Home</a>
+          </li>
+          <li class="menu-item-wrapper">
+            <a href="staggered-menu.html" class="menu-item">Menu</a>
+          </li>
+          <li class="menu-item-wrapper">
+            <a href="cake.html" class="menu-item">Cake</a>
+          </li>
+        </ul>
+      </div>
+      <div class="menu-overlay" id="menuOverlay"></div>
+    </div>
+
+    <div class="player-container">
+      <!-- Audio player -->
+      <audio id="audioPlayer" preload="auto">
+        <source src="image/songs_dancing.mp3" type="audio/mpeg" />
+      </audio>
+
+      <!-- Sweet Seventeen Header - DENGAN HIASAN BUNGA DI KANAN KIRI -->
+      <div class="sweet-header">
+        <h1>Sweet Seventeen</h1>
+        <h2>for Nadine ✨</h2>
+      </div>
+
+      <div class="main-content">
+        <!-- Left Section -->
+        <div class="left-section">
+          <div class="album-container">
+            <img
+              src="image/foto9.jpeg"
+              alt="Dancing Queen Album Cover"
+              class="album-cover"
+              id="albumCover"
+            />
+          </div>
+
+          <!-- Song Info - DENGAN BUNGA YANG TERLIHAT -->
+          <div class="song-info">
+            <div class="song-title">Dancing Queen</div>
+            <div class="song-artist">ABBA</div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-section">
+            <div class="progress-container" id="progressBar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="time-info">
+              <span id="currentTime">0:00</span>
+              <span id="duration">3:54</span>
+            </div>
+          </div>
+
+          <!-- Playback Controls -->
+          <div class="playback-controls">
+            <button class="control-btn" id="prevBtn">⏮</button>
+            <button class="control-btn play-pause" id="playPauseBtn">▶</button>
+            <button class="control-btn" id="nextBtn">⏭</button>
+          </div>
+        </div>
+
+        <!-- Right Section - Lyrics -->
+        <div class="right-section">
+          <div class="lyrics-container" id="lyricsContainer">
+            <div class="lyrics-content" id="lyricsContent"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative Divider -->
+      <div class="divider">
+        <span>✧</span>
+        <span>❀</span>
+        <span>✧</span>
+      </div>
+    </div>
+
+    <script>
+      // LIRIK SESUAI PERMINTAAN - DENGAN DURASI YANG TEPAT SAMPAI AKHIR LAGU
+      const lyricsData = [
+        // INTRO - 21 detik
+        { time: 0, text: "..." },
+
+        // Verse 1
+        { time: 21, text: "Ooh, you can dance, you can jive" },
+        { time: 25, text: "Having the time of your life" },
+        { time: 29, text: "Ooh, see that girl, watch that scene" },
+        { time: 33, text: "Digging the dancing queen" },
+
+        // "..." dari detik 34-45 (11 detik)
+        { time: 34, text: "..." },
+
+        // Verse 2
+        { time: 45, text: "Friday night and the lights are low" },
+        { time: 49, text: "Looking out for a place to go" },
+        {
+          time: 53,
+          text: "Where they play the right music, getting in the swing",
+        },
+        { time: 57, text: "You come to look for a king" },
+        { time: 61, text: "..." },
+
+        // Verse 3
+        { time: 65, text: "Anybody could be that guy" },
+        { time: 69, text: "Night is young and the music's high" },
+        { time: 73, text: "With a bit of rock music, everything is fine" },
+        { time: 77, text: "You're in the mood for a dance" },
+        { time: 81, text: "And when you get the chance" },
+        { time: 85, text: "..." },
+
+        // Chorus
+        { time: 89, text: "You are the dancing queen" },
+        { time: 93, text: "Young and sweet, only seventeen" },
+        { time: 97, text: "Dancing queen" },
+        { time: 101, text: "Feel the beat from the tambourine" },
+
+        // "..." di detik 102-104 (2 detik)
+        { time: 102, text: "..." },
+
+        // Verse 4
+        { time: 105, text: "You can dance, you can jive" },
+        { time: 109, text: "Having the time of your life" },
+        { time: 113, text: "Ooh, see that girl, watch that scene" },
+        { time: 117, text: "Digging the dancing queen" },
+        { time: 121, text: "..." },
+
+        // Verse 5
+        { time: 125, text: "You're a teaser, you turn 'em on" },
+        { time: 129, text: "Leave them burning and then you're gone" },
+        { time: 133, text: "Looking out for another, anyone will do" },
+        { time: 137, text: "You're in the mood for a dance" },
+        { time: 141, text: "And when you get the chance" },
+        { time: 145, text: "..." },
+
+        // Chorus
+        { time: 149, text: "You are the dancing queen" },
+        { time: 153, text: "Young and sweet, only seventeen" },
+        { time: 157, text: "Dancing queen" },
+        { time: 161, text: "Feel the beat from the tambourine" },
+        { time: 165, text: "Oh, yeah" },
+        { time: 169, text: "..." },
+
+        // Verse 6
+        { time: 173, text: "You can dance, you can jive" },
+        { time: 177, text: "Having the time of your life" },
+        { time: 181, text: "Ooh, see that girl, watch that scene" },
+        { time: 185, text: "Digging the dancing queen" },
+        { time: 189, text: "..." },
+
+        // Outro - DIPERPANJANG SAMPAI AKHIR LAGU
+        { time: 193, text: "Digging the dancing queen" },
+        { time: 197, text: "..." },
+        { time: 205, text: "Dancing queen" },
+        { time: 209, text: "..." },
+        { time: 215, text: "..." },
+        { time: 221, text: "..." },
+        { time: 227, text: "..." }, // Sampai lagu benar-benar selesai
+      ];
+
+      const audioPlayer = document.getElementById("audioPlayer");
+      const lyricsContent = document.getElementById("lyricsContent");
+      const progressFill = document.getElementById("progressFill");
+      const currentTimeEl = document.getElementById("currentTime");
+      const durationEl = document.getElementById("duration");
+      const playPauseBtn = document.getElementById("playPauseBtn");
+      const progressBar = document.getElementById("progressBar");
+      const lyricsContainer = document.getElementById("lyricsContainer");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+
+      function populateLyrics() {
+        lyricsContent.innerHTML = "";
+        lyricsData.forEach((lyric, index) => {
+          const div = document.createElement("div");
+          div.className = "lyric-line";
+          if (lyric.text === "...") {
+            div.classList.add("pause-indicator");
+          }
+          div.textContent = lyric.text;
+          div.dataset.time = lyric.time;
+          div.addEventListener("click", () => {
+            audioPlayer.currentTime = lyric.time;
+            if (audioPlayer.paused) audioPlayer.play();
+          });
+          lyricsContent.appendChild(div);
+        });
+      }
+
+      function formatTime(seconds) {
+        if (isNaN(seconds)) return "0:00";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, "0")}`;
+      }
+
+      function updateProgress() {
+        const currentTime = audioPlayer.currentTime;
+        const duration = audioPlayer.duration || 234;
+        const progress = (currentTime / duration) * 100;
+        progressFill.style.width = `${progress}%`;
+        currentTimeEl.textContent = formatTime(currentTime);
+        durationEl.textContent = formatTime(duration);
+
+        let activeIndex = -1;
+        for (let i = lyricsData.length - 1; i >= 0; i--) {
+          if (currentTime >= lyricsData[i].time) {
+            activeIndex = i;
+            break;
+          }
+        }
+
+        const lyrics = document.querySelectorAll(".lyric-line");
+        lyrics.forEach((lyric, index) => {
+          lyric.classList.remove("active");
+          if (index === activeIndex) {
+            lyric.classList.add("active");
+            const container = lyricsContainer;
+            const lyricTop = lyric.offsetTop;
+            const containerHeight = container.clientHeight;
+            const lyricHeight = lyric.clientHeight;
+            container.scrollTo({
+              top: lyricTop - containerHeight / 2 + lyricHeight / 2,
+              behavior: "smooth",
+            });
+          }
+        });
+      }
+
+      function togglePlay() {
+        if (audioPlayer.paused) {
+          audioPlayer.play();
+          playPauseBtn.innerHTML = "⏸";
+        } else {
+          audioPlayer.pause();
+          playPauseBtn.innerHTML = "▶";
+        }
+      }
+
+      audioPlayer.addEventListener("timeupdate", updateProgress);
+      audioPlayer.addEventListener("loadedmetadata", () => {
+        durationEl.textContent = formatTime(audioPlayer.duration);
+      });
+      audioPlayer.addEventListener(
+        "play",
+        () => (playPauseBtn.innerHTML = "⏸"),
+      );
+      audioPlayer.addEventListener(
+        "pause",
+        () => (playPauseBtn.innerHTML = "▶"),
+      );
+      audioPlayer.addEventListener("ended", () => {
+        playPauseBtn.innerHTML = "▶";
+        audioPlayer.currentTime = 0;
+      });
+
+      progressBar.addEventListener("click", (e) => {
+        const rect = progressBar.getBoundingClientRect();
+        const percentage = (e.clientX - rect.left) / rect.width;
+        audioPlayer.currentTime = percentage * audioPlayer.duration;
+      });
+
+      playPauseBtn.addEventListener("click", togglePlay);
+      prevBtn.addEventListener("click", () => {
+        audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 10);
+      });
+      nextBtn.addEventListener("click", () => {
+        audioPlayer.currentTime = Math.min(
+          audioPlayer.duration,
+          audioPlayer.currentTime + 10,
+        );
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "Space") {
+          e.preventDefault();
+          togglePlay();
+        }
+      });
+
+      // Staggered Menu
+      const menuWrapper = document.getElementById("staggeredMenu");
+      const menuToggle = document.getElementById("menuToggle");
+      const menuOverlay = document.getElementById("menuOverlay");
+      const menuText = document.getElementById("menuText");
+      let isMenuOpen = false;
+
+      function openMenu() {
+        isMenuOpen = true;
+        menuWrapper.classList.add("menu-open");
+        menuToggle.classList.add("open");
+        setTimeout(() => {
+          menuText.textContent = "CLOSE";
+          menuText.classList.add("show");
+        }, 50);
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMenu() {
+        isMenuOpen = false;
+        menuWrapper.classList.remove("menu-open");
+        menuToggle.classList.remove("open");
+        menuText.classList.remove("show");
+        setTimeout(() => {
+          if (!isMenuOpen) menuText.textContent = "MENU";
+        }, 300);
+        document.body.style.overflow = "";
+      }
+
+      menuToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        isMenuOpen ? closeMenu() : openMenu();
+      });
+      menuOverlay.addEventListener("click", closeMenu);
+
+      // Initialize
+      populateLyrics();
+      audioPlayer.volume = 0.7;
+    </script>
+  </body>
+</html>

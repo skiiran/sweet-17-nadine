@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Candle Blow - Sweet Seventeen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"
+    />
+    <link rel="stylesheet" href="cakee.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+  </head>
+  <body>
+    <!-- DECORATIVE BACKGROUND -->
+    <div class="decor-bg">
+      <div class="decor-circle decor-circle-1"></div>
+      <div class="decor-circle decor-circle-2"></div>
+      <div class="decor-circle decor-circle-3"></div>
+      <div class="decor-dots"></div>
+    </div>
+
+    <!-- GOLDEN LINES -->
+    <div class="golden-line line-top"></div>
+    <div class="golden-line line-bottom"></div>
+
+    <!-- HIASAN BUNGA -->
+    <div class="flower-decoration flower-1">❀</div>
+    <div class="flower-decoration flower-2">✽</div>
+    <div class="flower-decoration flower-3">❁</div>
+    <div class="flower-decoration flower-4">✾</div>
+    <div class="flower-decoration flower-5">❀</div>
+    <div class="flower-decoration flower-6">✿</div>
+
+    <!-- STAGGERED MENU -->
+    <div class="staggered-menu-wrapper" id="staggeredMenu">
+      <div class="staggered-menu-header">
+        <div class="menu-text-container">
+          <span class="menu-text" id="menuText">MENU</span>
+        </div>
+        <div class="menu-toggle" id="menuToggle">
+          <div class="menu-icon">
+            <span class="menu-icon-line"></span>
+            <span class="menu-icon-line"></span>
+            <span class="menu-icon-line"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-panel" id="menuPanel">
+        <div class="panel-brand">SWEET 17</div>
+        <ul class="menu-items">
+          <li class="menu-item-wrapper">
+            <a href="hal2.html" class="menu-item">Home</a>
+          </li>
+          <li class="menu-item-wrapper">
+            <a href="staggered-menu.html" class="menu-item">Menu</a>
+          </li>
+          <li class="menu-item-wrapper">
+            <a href="cake.html" class="menu-item">Cake</a>
+          </li>
+        </ul>
+      </div>
+      <div class="menu-overlay" id="menuOverlay"></div>
+    </div>
+
+    <!-- MICROPHONE BUTTON -->
+    <div
+      class="mic-button"
+      id="micButton"
+      title="Aktifkan mikrofon untuk meniup lilin"
+    >
+      <i class="fas fa-microphone"></i>
+    </div>
+
+    <!-- PERMISSION INDICATOR -->
+    <div class="permission-indicator" id="permissionIndicator">
+      <i class="fas fa-check-circle"></i> Mikrofon aktif - Tiup untuk mematikan
+      lilin
+    </div>
+
+    <!-- CANDLE COUNT DISPLAY -->
+    <div class="candle-count-display">Happy 17th Birthday!</div>
+
+    <div class="cake" id="cake">
+      <div class="plate"></div>
+      <div class="layer layer-bottom"></div>
+      <div class="layer layer-middle"></div>
+      <div class="layer layer-top"></div>
+      <div class="icing"></div>
+      <div class="drip drip1"></div>
+      <div class="drip drip2"></div>
+      <div class="drip drip3"></div>
+    </div>
+
+    <div class="footer">&copy; skyran. <span class="heart"></span></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2"></script>
+    <script src="cake.js"></script>
+  </body>
+</html>
